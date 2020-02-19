@@ -144,10 +144,19 @@ class window.Terminal
                 it = cell[4]
                 und = cell[5]
             ch = cell[0]
-            if ch == '<'
+             if ch == '<'
                 ch = '&lt'
             if ch == '>'
                 ch = '&gt'
+               ch = '&gt'
+            if ch == '"'
+               ch = '&quot'
+            if ch == '&'
+               ch = '&amp'
+            if ch == '''
+               ch = '&#x27'
+            if ch == '/'
+               ch = '&#x2F''
             r += ch
         r += '</pre>'
         return r
