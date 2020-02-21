@@ -3,6 +3,7 @@ import grp
 import logging
 import os
 import pwd
+import escape
 
 from ajenti.api import *
 from ajenti.api.http import *
@@ -41,7 +42,7 @@ class FileManager (SectionPlugin):
 
         def post_item_bind(object, collection, item, ui):
             ui.find('name').on('click', self.on_item_click, object, item)
-            ui.find('edit').on('click', self.edit, item.fullpath)
+            ui.find('edit').on('click', self.edit, escape(item.fullpath))
         self.find('items').post_item_bind = post_item_bind
 
         def post_bc_bind(object, collection, item, ui):
@@ -89,6 +90,7 @@ class FileManager (SectionPlugin):
         destination = self.controller.tabs[self.tabs.active].path
         logging.info('[fm] new file in %s' % destination)
         path = os.path.join(destination, 'new file')
+        path = escape(path)
         try:
             open(path, 'w').close()
             self._chown_new(path)
@@ -101,6 +103,7 @@ class FileManager (SectionPlugin):
         destination = self.controller.tabs[self.tabs.active].path
         logging.info('[fm] new directory in %s' % destination)
         path = os.path.join(destination, 'new directory')
+        path = escape(path)
         if not os.path.exists(path):
             try:
                 os.mkdir(path)
